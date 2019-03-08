@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "b817c9bb-b79a-4fb2-93f4-847189b880fb",
+		"name": "Azure",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login to AAD",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b884ecfd-1807-4d8e-85d0-a7cbe9322a3e",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"pm.globals.set(\"azure_auth_token\", jsonData.access_token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "grant_type",
+							"value": "client_credentials",
+							"type": "text"
+						},
+						{
+							"key": "resource",
+							"value": "5d0d4563-cd99-4c03-909a-d68c64b44fe8",
+							"type": "text"
+						},
+						{
+							"key": "client_id",
+							"value": "7e679cd9-6e91-4612-a935-eac0491ca907",
+							"type": "text"
+						},
+						{
+							"key": "client_secret",
+							"value": "oPWBUWt3EwqdgKWZzsitLi+JsU+Vw/dFIg/NYSOiWbI=",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://login.microsoftonline.com/23c62d52-1b7c-45c3-bdd4-6667c9518ee9/oauth2/token",
+					"protocol": "https",
+					"host": [
+						"login",
+						"microsoftonline",
+						"com"
+					],
+					"path": [
+						"23c62d52-1b7c-45c3-bdd4-6667c9518ee9",
+						"oauth2",
+						"token"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "API Call",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{azure_auth_token}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://localhost:44340/api/values",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "44340",
+					"path": [
+						"api",
+						"values"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
